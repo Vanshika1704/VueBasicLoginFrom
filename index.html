@@ -36,11 +36,13 @@
 		app.component('login-form',{
 			//change <div> to <form> now , add log-in button and add v-models to capture the data 
 			// change input to custom-input, remove simple v-models and bind the labels using v-bind modifier
+			
+			// use v-for and v-bind:key/ :key for looping through the custom input components: pushing just a simple example for same
 			template:` 
 			<h1>{{title}}</h1>
 			<form @submit.prevent="handleSubmit">
 				<p v-for="str in inputs" :key="str">{{str}}</p>
-				<p v-for="(str,i) in inputs" :key="i">{{i}}</p>
+				<p v-for="(str,i) in inputs" :key="i">{{ i }}</p>
 				<custom-input v-model="email" v-bind:label="emailLabel"/>
 				<custom-input v-model="password" v-bind:label="passwordLabel"/>
 				<button>Log In</button>
