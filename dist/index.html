@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Vue Login Form</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="/styles.dd855970.css">
+	<style>input{
+			margin: 10px;
+			display: block;
+
+		}</style>
+<script src="/styles.dd855970.js"></script></head>
+
+<body>
+	<div id="app" v-cloak="">
+		<login-form>
+	</login-form></div>
+
+	<script src="/src.a2b27638.js"></script>
+	<script src="https://unpkg.com/vue@next"></script>
+	<script>var app = Vue.createApp({
+  data: function data() {
+    return {};
+  },
+  methods: {}
+});
+// building a custom vue component for a login form
+app.component('login-form', {
+  template: " \n\t\t\t<h1>{{title}}</h1>\n\t\t\t<div>\n\t\t\t\t<input type=\"email\"/>\n\t\t\t\t<input type=\"password\"/>\n\t\t\t</div>",
+  data: function data() {
+    return {
+      title: 'Login-Form'
+    };
+  }
+});
+app.mount('#app');</script>
+</body>
+
+</html>

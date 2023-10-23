@@ -2,17 +2,52 @@
 <html>
 
 <head>
-	<title>Sandbox</title>
+	<title>Vue Login Form</title>
 	<meta charset="UTF-8" />
 	<link rel="stylesheet" href="src/styles.css">
+	<style>
+		input{
+			margin: 10px;
+			display: block;
+
+		}
+	</style>
 </head>
 
 <body>
-<h1>HTML/CSS/JS Scratch Template</h1>
-	<div id="app"></div>
+	<div id="app" v-cloak>
+		<login-form/>
+	</div>
 
-	<script src="src/index.js">
-	</script>
+	<script src="src/index.js"></script>
+	<script src="https://unpkg.com/vue@next"></script>
+	<script>
+		let app= Vue.createApp({
+			data : function(){
+				return {
+
+				}
+			},
+			methods:{
+
+			}
+		})
+		// building a custom vue component for a login form
+		app.component('login-form',{
+			template:` 
+			<h1>{{title}}</h1>
+			<div>
+				<input type="email"/>
+				<input type="password"/>
+			</div>`,
+			data(){
+				return{
+					title:'Login-Form'
+				}
+			}
+		})
+		app.mount('#app')
+		</script>
 </body>
 
 </html>
