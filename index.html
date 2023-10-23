@@ -34,15 +34,25 @@
 		})
 		// building a custom vue component for a login form
 		app.component('login-form',{
+			//change <div> to <form> now , add log-in button and add v-models to capture the data 
 			template:` 
 			<h1>{{title}}</h1>
-			<div>
-				<input type="email"/>
-				<input type="password"/>
-			</div>`,
+			<form @submit.prevent="handleSubmit">
+				<input type="email" v-model="email"/>
+				<input type="password" v-model="password"/>
+				<button>Log In</button>
+			</form>`,
 			data(){
 				return{
-					title:'Login-Form'
+					title:'Login-Form',
+					email:'',
+					password:'',
+				}
+			},
+			methods:{
+				handleSubmit(){
+					console.log('submited')
+					console.log(this.email,this.password)
 				}
 			}
 		})
