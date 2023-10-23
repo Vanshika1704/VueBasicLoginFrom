@@ -28,14 +28,16 @@
 // building a custom vue component for a login form
 app.component('login-form', {
   //change <div> to <form> now , add log-in button and add v-models to capture the data 
-  // change input to custom-input, remove v-models and bind the labels using v-bind modifier
-  template: " \n\t\t\t<h1>{{title}}</h1>\n\t\t\t<form @submit.prevent=\"handleSubmit\">\n\t\t\t\t<custom-input v-model=\"email\" v-bind:label=\"emailLabel\"/>\n\t\t\t\t<custom-input v-model=\"password\" v-bind:label=\"passwordLabel\"/>\n\t\t\t\t<button>Log In</button>\n\t\t\t</form>",
+  // change input to custom-input, remove simple v-models and bind the labels using v-bind modifier
+  template: " \n\t\t\t<h1>{{title}}</h1>\n\t\t\t<form @submit.prevent=\"handleSubmit\">\n\t\t\t\t<p v-for=\"str in inputs\" :key=\"str\">{{str}}</p>\n\t\t\t\t<p v-for=\"(str,i) in inputs\" :key=\"i\">{{i}}</p>\n\t\t\t\t<custom-input v-model=\"email\" v-bind:label=\"emailLabel\"/>\n\t\t\t\t<custom-input v-model=\"password\" v-bind:label=\"passwordLabel\"/>\n\t\t\t\t<button>Log In</button>\n\t\t\t</form>",
   //the now used v-model is doing few steps at once and because of this 
   //we have access to (v-bind):modelValue="email/password" in the backend, 
   //we can pass that in the props of the child component
   data: function data() {
     return {
       title: 'Login-Form',
+      //now we will use looping to create custom inputs
+      inputs: ['email', 'password', 'name'],
       email: '',
       password: '',
       emailLabel: 'Email',

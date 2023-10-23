@@ -35,10 +35,12 @@
 		// building a custom vue component for a login form
 		app.component('login-form',{
 			//change <div> to <form> now , add log-in button and add v-models to capture the data 
-			// change input to custom-input, remove v-models and bind the labels using v-bind modifier
+			// change input to custom-input, remove simple v-models and bind the labels using v-bind modifier
 			template:` 
 			<h1>{{title}}</h1>
 			<form @submit.prevent="handleSubmit">
+				<p v-for="str in inputs" :key="str">{{str}}</p>
+				<p v-for="(str,i) in inputs" :key="i">{{i}}</p>
 				<custom-input v-model="email" v-bind:label="emailLabel"/>
 				<custom-input v-model="password" v-bind:label="passwordLabel"/>
 				<button>Log In</button>
@@ -49,6 +51,12 @@
 			data(){
 				return{
 					title:'Login-Form',
+					//now we will use looping to create custom inputs
+					inputs:[
+					'email',
+					'password',
+					'name',
+					],
 					email:'',
 					password:'',
 					emailLabel:'Email',
