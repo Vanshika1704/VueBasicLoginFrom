@@ -28,12 +28,18 @@
 // building a custom vue component for a login form
 app.component('login-form', {
   //change <div> to <form> now , add log-in button and add v-models to capture the data 
-  template: " \n\t\t\t<h1>{{title}}</h1>\n\t\t\t<form @submit.prevent=\"handleSubmit\">\n\t\t\t\t<input type=\"email\" v-model=\"email\"/>\n\t\t\t\t<input type=\"password\" v-model=\"password\"/>\n\t\t\t\t<button>Log In</button>\n\t\t\t</form>",
+  // change input to custom-input, remove v-models and bind the labels using v-bind modifier
+  template: " \n\t\t\t<h1>{{title}}</h1>\n\t\t\t<form @submit.prevent=\"handleSubmit\">\n\t\t\t\t<custom-input v-model=\"email\" v-bind:label=\"emailLabel\"/>\n\t\t\t\t<custom-input v-model=\"password\" v-bind:label=\"passwordLabel\"/>\n\t\t\t\t<button>Log In</button>\n\t\t\t</form>",
+  //the now used v-model is doing few steps at once and because of this 
+  //we have access to (v-bind):modelValue="email/password" in the backend, 
+  //we can pass that in the props of the child component
   data: function data() {
     return {
       title: 'Login-Form',
       email: '',
-      password: ''
+      password: '',
+      emailLabel: 'Email',
+      passwordLabel: 'Password'
     };
   },
   methods: {
@@ -43,6 +49,30 @@ app.component('login-form', {
     }
   }
 });
+//create a custom input component and replace it in the login-form component created above
+//add v-model here to capture the input values 
+app.component('custom-input', {
+  template: "\n\t\t\t<label>\n\t\t\t\t{{label}}\n\t\t\t\t<input type=\"text\" v-model=\"inputValue\"/>\n\t\t\t</label>\n\t\t\t",
+  props: ['label', 'modelValue'],
+  computed: {
+    inputValue: {
+      get: function get() {
+        return this.modelValue;
+      },
+      set: function set(value) {
+        //console.log(value)
+        this.$emit('update:modelValue', value);
+      }
+    }
+  }
+
+  // data(){
+  // 	return{
+  // 		inputValues:'',
+  // 	}
+  // }
+});
+
 app.mount('#app');</script>
 </body>
 
