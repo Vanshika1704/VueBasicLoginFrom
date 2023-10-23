@@ -31,7 +31,7 @@ app.component('login-form', {
   // change input to custom-input, remove simple v-models and bind the labels using v-bind modifier
 
   // use v-for and v-bind:key/ :key for looping through the custom input components: pushing just a simple example for same
-  template: " \n\t\t\t<h1>{{title}}</h1>\n\t\t\t<form @submit.prevent=\"handleSubmit\">\n\t\t\t\t<p v-for=\"str in inputs\" :key=\"str\">{{str}}</p>\n\t\t\t\t<p v-for=\"(str,i) in inputs\" :key=\"i\">{{ i }}</p>\n\t\t\t\t<custom-input v-model=\"email\" v-bind:label=\"emailLabel\"/>\n\t\t\t\t<custom-input v-model=\"password\" v-bind:label=\"passwordLabel\"/>\n\t\t\t\t<button>Log In</button>\n\t\t\t</form>",
+  template: " \n\t\t\t<h1>{{title}}</h1>\n\t\t\t<form @submit.prevent=\"handleSubmit\">\n\t\t\t\t<custom-input \n\t\t\t\tv-for=\"(input,i) in inputs\"\n\t\t\t\t:key=\"i\"\n\t\t\t\tv-model=\"input.value\" \n\t\t\t\t:label=\"input.label\"\n\t\t\t\t:type=\"input.type\"/>\n\t\t\t\t\n\t\t\t\t<button>Log In</button>\n\t\t\t</form>",
   //the now used v-model is doing few steps at once and because of this 
   //we have access to (v-bind):modelValue="email/password" in the backend, 
   //we can pass that in the props of the child component
@@ -39,25 +39,37 @@ app.component('login-form', {
     return {
       title: 'Login-Form',
       //now we will use looping to create custom inputs
-      inputs: ['email', 'password', 'name'],
-      email: '',
-      password: '',
-      emailLabel: 'Email',
-      passwordLabel: 'Password'
+      inputs: [{
+        label: "Email",
+        value: '',
+        type: 'email'
+      }, {
+        label: 'Password',
+        value: '',
+        type: 'password'
+      }]
+      // email:'',
+      // password:'',
+      // emailLabel:'Email',
+      // passwordLabel:'Password',
     };
   },
+
   methods: {
     handleSubmit: function handleSubmit() {
       console.log('submited details');
-      console.log(this.email, this.password);
+      // console.log(this.email,this.password)
+      console.log(this.inputs[0].value, this.inputs[1].value);
     }
   }
 });
 //create a custom input component and replace it in the login-form component created above
 //add v-model here to capture the input values 
 app.component('custom-input', {
-  template: "\n\t\t\t<label>\n\t\t\t\t{{label}}\n\t\t\t\t<input type=\"text\" v-model=\"inputValue\"/>\n\t\t\t</label>\n\t\t\t",
-  props: ['label', 'modelValue'],
+  // we will need to v-bind the type here with the type that we will pass in from the prop so type="text" will change to :type="type"
+  template: "\n\t\t\t<label>\n\t\t\t\t{{label}}\n\t\t\t\t<input :type=\"type\" v-model=\"inputValue\"/>\n\t\t\t</label>\n\t\t\t",
+  //now that we are looping the custom inputs and they have a label, value and type, we need to add "type" to the props as well
+  props: ['label', 'type', 'modelValue'],
   computed: {
     inputValue: {
       get: function get() {

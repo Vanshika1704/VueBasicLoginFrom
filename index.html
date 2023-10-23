@@ -41,10 +41,13 @@
 			template:` 
 			<h1>{{title}}</h1>
 			<form @submit.prevent="handleSubmit">
-				<p v-for="str in inputs" :key="str">{{str}}</p>
-				<p v-for="(str,i) in inputs" :key="i">{{ i }}</p>
-				<custom-input v-model="email" v-bind:label="emailLabel"/>
-				<custom-input v-model="password" v-bind:label="passwordLabel"/>
+				<custom-input 
+				v-for="(input,i) in inputs"
+				:key="i"
+				v-model="input.value" 
+				:label="input.label"
+				:type="input.type"/>
+				
 				<button>Log In</button>
 			</form>`,
 			//the now used v-model is doing few steps at once and because of this 
@@ -55,33 +58,43 @@
 					title:'Login-Form',
 					//now we will use looping to create custom inputs
 					inputs:[
-					'email',
-					'password',
-					'name',
+					{
+						label:"Email",
+						value:'',
+						type:'email'
+					},
+					{
+						label:'Password',
+						value:'',
+						type:'password'
+					}
 					],
-					email:'',
-					password:'',
-					emailLabel:'Email',
-					passwordLabel:'Password',
+					// email:'',
+					// password:'',
+					// emailLabel:'Email',
+					// passwordLabel:'Password',
 				}
 			},
 			methods:{
 				handleSubmit(){
 					console.log('submited details')
-					console.log(this.email,this.password)
+					// console.log(this.email,this.password)
+					console.log(this.inputs[0].value, this.inputs[1].value)
 				}
 			}
 		})
 		//create a custom input component and replace it in the login-form component created above
 		//add v-model here to capture the input values 
 		app.component('custom-input',{
+			// we will need to v-bind the type here with the type that we will pass in from the prop so type="text" will change to :type="type"
 			template:`
 			<label>
 				{{label}}
-				<input type="text" v-model="inputValue"/>
+				<input :type="type" v-model="inputValue"/>
 			</label>
 			`,
-			props:['label','modelValue'],
+			//now that we are looping the custom inputs and they have a label, value and type, we need to add "type" to the props as well
+			props:['label','type','modelValue'],
 			computed:{
 				inputValue: {
 					get(){
